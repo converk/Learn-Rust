@@ -1,0 +1,1 @@
+{"rustc":6643590591434809536,"features":"[]","target":5630299011845702704,"profile":16734874730595342286,"path":1036222786711178230,"deps":[["rand v0.3.22","rand",15555496319114362981],["rand v0.3.22","rand",15092456445427466182]],"local":[{"Precalculated":"1547107041.150277714s (/home/hbw/GitHub/Learn-Rust/guess_number/src/main.rs)"}],"rustflags":[],"edition":"Edition2018"}
