@@ -1,5 +1,5 @@
 use std::io; //引用标准库里面的io库,为了获取用户输入并打印结果作为输出,
-            //需要将 io（输入/输出）库引入当前作用域
+//需要将 io（输入/输出）库引入当前作用域
 
 //相当于use rand 表示使用外面的库
 //所以现在可以使用 rand:: 前缀来调用 rand crate 中的任何内容。
@@ -49,8 +49,8 @@ fn main() {
         //这行代码打印储存到guess里面的字符串.{}是占位符
         println!("You guess,{}", guess);
 
-          //match语句,其实跟switch差不多,guess.cmp()返回的是一个Ordering枚举类型
-       //跟下面三个语句进行比较,看符合哪一个,就执行后面的语句
+        //match语句,其实跟switch差不多,guess.cmp()返回的是一个Ordering枚举类型
+        //跟下面三个语句进行比较,看符合哪一个,就执行后面的语句
         match guess.cmp(&_secret_number) {
             Ordering::Greater => println!("Too bigger"),
             Ordering::Equal => {
