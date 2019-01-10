@@ -19,7 +19,7 @@ fn main() {
     //并生成一个范围在两者之间的随机数
     let _secret_number = rand::thread_rng().gen_range(1, 101);
 
-    loop{
+    loop {
         println!("please input your guess");
 
         //let语句创建一个新变量,mut表示该变量是可变的,guess就是变量名
@@ -38,25 +38,25 @@ fn main() {
 
         //将输入的字符串转化为u32类型的数字,rust默认的数字类型是u32
         //在这里其实初始化了另外一个变量guess,它会覆盖之前的变量(shadow)
-        let guess:u32=match guess.trim().parse(){
+        let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,   //如果guess.trim().parse()返回的Result为true,那么就取得OK里面的数字
             Err(_) => {
                 println!("please input a number");
                 continue;
-            },  //如果转化数字失败,那么就直接执行下一次循环
+            }  //如果转化数字失败,那么就直接执行下一次循环
         };
 
         //这行代码打印储存到guess里面的字符串.{}是占位符
         println!("You guess,{}", guess);
 
-        //match语句,其实跟switch差不多,guess.cmp()返回的是一个Ordering枚举类型
-        //跟下面三个语句进行比较,看符合哪一个,就执行后面的语句
+          //match语句,其实跟switch差不多,guess.cmp()返回的是一个Ordering枚举类型
+       //跟下面三个语句进行比较,看符合哪一个,就执行后面的语句
         match guess.cmp(&_secret_number) {
             Ordering::Greater => println!("Too bigger"),
             Ordering::Equal => {
                 println!("you are right");
-                break;   //退出循环
-            },
+                break; //退出循环
+            }
             Ordering::Less => println!(" Too less"),
         }
     }
