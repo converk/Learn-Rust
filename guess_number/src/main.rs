@@ -1,5 +1,5 @@
 use std::io; //引用标准库里面的io库,为了获取用户输入并打印结果作为输出,
-//需要将 io（输入/输出）库引入当前作用域
+             //需要将 io（输入/输出）库引入当前作用域
 
 //相当于use rand 表示使用外面的库
 //所以现在可以使用 rand:: 前缀来调用 rand crate 中的任何内容。
@@ -32,18 +32,18 @@ fn main() {
         //调用stdin里面的read_line函数,读取用户的输入,无论输入什么,都将其存入到一个字符串中
         //这个字符串就是guess,要求其可变,就必须加上mut参数
         //& 表示这个参数是一个 引用（reference），它允许多处代码访问同一处数据，而无需在内存中多次拷贝
-        io::stdin().read_line(&mut guess).expect(
-            "Failed to read line",
-        );
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
 
         //将输入的字符串转化为u32类型的数字,rust默认的数字类型是u32
         //在这里其实初始化了另外一个变量guess,它会覆盖之前的变量(shadow)
         let guess: u32 = match guess.trim().parse() {
-            Ok(num) => num,   //如果guess.trim().parse()返回的Result为true,那么就取得OK里面的数字
+            Ok(num) => num, //如果guess.trim().parse()返回的Result为true,那么就取得OK里面的数字
             Err(_) => {
                 println!("please input a number");
                 continue;
-            }  //如果转化数字失败,那么就直接执行下一次循环
+            } //如果转化数字失败,那么就直接执行下一次循环
         };
 
         //这行代码打印储存到guess里面的字符串.{}是占位符
@@ -61,3 +61,12 @@ fn main() {
         }
     }
 }
+
+// "rust.rustup": {
+
+//     "nightlyToolchain": "nightly-x86_64-unknown-linux-gnu"
+// },
+// "rust.mode": "rls",
+// "rust.rls": {
+//     "useRustfmt": true
+// },
