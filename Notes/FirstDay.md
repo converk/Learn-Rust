@@ -56,6 +56,7 @@ let mut bar = 5; // 可变
 io::stdin.read_line(&mut guess).expect("Failed to read line");
 ```
 
+`io::stdin.read_line(&mut guess)`的返回值是`Result`类型  
 `Result`类型也就是一个枚举类型(enum),枚举类型持有固定集合的值，这些值被称为枚举的 **成员（variants）**  
 `Result` 的成员是 `Ok` 和 `Err`，`Ok` 成员表示操作成功，内部包含成功时产生的值。`Err` 成员则意味着操作失败，并且包含失败的前因后果  
 `Result` 类型的值，像其他类型一样，拥有定义于其上的方法。`io::Result` 的实例拥有`expect` 方法。如果 `io::Result` 实例的值是 `Err`，`expect` 会导致程序崩溃，并显示当做参数传递给 `expect` 的信息。如果 read_line 方法返回 Err，则可能是来源于底层操作系统错误的结果。如果 `io::Result` 实例的值是 `Ok`，`expect` 会获取 Ok 中的值并原样返回。在本例中，这个值是用户输入到标准输入中的字节数
@@ -94,3 +95,15 @@ Cargo 有一个机制来确保任何人在任何时候重新构建代码，都�
 ```.toml
 rand="0.4.1"
 ```
+
+### 查看当前工程所用的crate
+
+`cargo doc --open`
+
+### std::cmp::Ordering
+
+同 `Result` 一样， `Ordering` 也是一个枚举，不过它的成员是 `Less、Greater 和 Equal`。这是比较两个值时可能出现的三种结果。  
+
+### match语句
+
+感觉跟switch差不多的
