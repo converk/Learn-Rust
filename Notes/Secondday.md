@@ -295,3 +295,170 @@ fn another_fn(x: u32) -> u32 {
     x + 1
 }
 ```
+
+## 控制流
+
+Rust 代码中最常见的用来控制执行流的结构是 if 表达式和循环。
+
+### if
+
+要注意的是`if`和`else if`里面的判断值必须是`bool`值,如果是`int` 或者是其他则编译器会报错,比如下面这个例子
+
+```.rs
+fn main() {
+    let x = 3;
+    if x {          //这里的x是int型,所以编译器会报错
+        println!("x: {}", another_fn(5) + 1);   //这是一条语句,不是表达式
+    } else {
+        println!("y: {}", another_fn(7) + 2);
+    }
+}
+```
+
+#### 在let语句里面使用if
+
+```.rs
+fn main() {
+    let condition = true;
+    let x = if condition { 5 } else { 6 };  //每一个大括号里面都是一个代码块,代码块的值是最后一个表达式的值
+    println!("x:,{}", x);
+}
+```
+
+整个 `if` 表达式的值取决于哪个代码块被执行。这意味着 `if` 的每个分支的可能的返回值都必须是相同类型；`if` 分支和 `else` 分支的结果都是 `i32` 整型。如果它们的类型不匹配，如下面这个例子，则会出现一个错误：
+
+```.rs
+fn main() {
+    let condition = true;
+    let x = if condition { 5 } else { "sx" };
+    println!("x:,{}", x);
+}
+```
+
+下面这种也是不行的
+
+```.rs
+fn main() {
+    let condition = true;
+    let x: i64 = if condition { 5.0 } else { 6.0 };
+    println!("x:,{}", x);
+}
+```
+
+Rust 需要在编译时就确切的知道 `x` 变量的类型，这样它就可以在编译时验证在每处使用的 `x` 变量的类型是有效的。
+
+### 循环
+
+#### loop
+
+`loop` 关键字告诉 Rust 一遍又一遍地执行一段代码直到你明确要求停止
+
+```.rs
+fn main() {
+    loop {
+        println!("again!");
+    }
+}
+```
+
+#### 从循环中返回
+
+`loop` 的一个用例是重试可能会失败的操作，比如检查线程是否完成了任务。然而你可能会需要将操作的结果传递给其它的代码。如果将返回值加入你用来停止循环的 `break` 表达式，**它会被停止的循环返回**：
+
+```.rs
+fn main() {
+    let mut counter = 0;
+    let x = loop {
+        counter += 1;
+        if counter == 10 {
+            break 2 * counter; //作为返回值返回到x,break表达式,最后有一个分号
+        }
+    }; //不要忘了分号
+}
+```
+
+注意作用域的问题
+
+```.rs
+fn main() {
+    let counter = 0;
+    let x = loop {   //这里的loop每执行完一次,counter的值不会变成上一次循环是时counter的值,而是会变成0
+        let counter = counter + 1;
+        println!("counter,{}", counter);
+        if counter == 10 {
+            break 2 * counter; //作为返回值返回到x,break表达式,最后有一个分号
+        }
+    }; //不要忘了分号
+    println!("x,{}", x);
+}
+```
+
+#### while循环
+
+跟其他语言差不多,就不解释了
+
+#### for循环
+
+```.rs
+fn main() {
+    let a = [10, 20, 30, 40, 50];
+    for element in a.iter() {
+        println!("element,{}", element);
+    }
+}
+```
+
+这里不需要考虑数组越界的问题,但是如果是用`while`循环的话就需要写出退出条件
+`for` 循环的安全性和简洁性使得它成为 Rust 中使用最多的循环结构。即使是在想要循环执行代码特定次数时，例如示例 3-3 中使用 while 循环的倒计时例子，大部分 Rustacean 也会使用 for 循环。这么做的方式是使用 `Range`，它是标准库提供的类型，用来生成从一个数字开始到另一个数字之前结束的所有数字的序列。
+
+下面是一个使用 `for` 循环来倒计时的例子，它还使用了一个我们还未讲到的方法，`rev`，用来反转
+
+```.rs
+fn main() {
+    for element in (1..4).rev() {   //(1..4)是一个range,包含了1,2,3三个元素,rev()是将这三个元素倒过来
+        println!("element,{}", element);
+    }
+}
+
+```
+
+## 练习
+
+### 斐波那契数列
+
+```.rs
+use std::io;
+fn main() {
+    let mut fb_num = String::new();
+    io::stdin().read_line(&mut fb_num).expect("read error");
+    let fb_num = fb_num.trim().parse().expect("please input anumber");
+    println!("result,{}", fb(fb_num));
+}
+
+fn fb(x: u32) -> u32 {
+    if x == 1 || x == 0 {
+        1
+    } else {
+        fb(x - 1) + fb(x - 2)
+    }
+}
+
+```
+
+### 转换华氏与摄氏
+
+```.rs
+use std::io;
+fn main() {
+    println!("please input:");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).expect("read error ");
+    let (first, last) = input.split_at(input.len() - 2);
+    let input_number: f32 = first.trim().parse().expect("please input a number");
+    if last == "c\n" || last == "C\n" {
+        println!("华氏,{}F", (input_number * 1.8) + 32.0);
+    } else {
+        println!("摄氏,{}C", (input_number - 32.0) / 1.8)
+    }
+}
+```
